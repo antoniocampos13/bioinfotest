@@ -1,1 +1,6 @@
 workspace.code-workspace
+hg19*
+data/*.fastq.gz
+__pycache__/
+510-7*
+BRCA*

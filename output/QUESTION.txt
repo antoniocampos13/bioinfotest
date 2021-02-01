@@ -1,16 +1,42 @@
-
-
 1 - Quantas sequências de DNA de paciente sequenciados temos nos arquivos de fastqs R1 e R2 respectivamente ?
+
+Utilizei o programa FASTQC para realizar a determinação da quantidade de sequências. O output do FASTQC revelou que há 64.276 reads em cada arquivo fastq, totalizando, portanto, 128.552 reads.
 
 2 - Sobre o genoma humano hg19, quantos contigs tem o nosso genoma hg19 (hg19.fasta) aqui disponibilizado para este pipeline ?
 
+Considerando que cada contig num arquivo FASTA é identificado com um cabeçalho que começa com o símbolo ">", usei a ferramenta grep para deteminar a quantidade de linhas contendo o símbolo.
+
+Dessa forma, o arquivo disponibilizado contém 93 contigs.
+
 3 - Quantos alinhamentos há na região chr17:41197694-41197819 ? 
 
+Realizei o alinhamento das reads usando o genoma de referência disponibilizado com o programa BWA. 
+
+Em seguida, criei um arquivo BED simples contendo as coordenadas disponibilizadas e usei o samtools view com as opções -L e -c para restringir a busca de reads alinhadas dentro das coordenadas e em seguida contar o número delas.
+
+Dessa forma, existem 2210 alinhamentos na região solicitada.
 
 4 - Quantos alinhamentos não conseguiram ser mapeados (unmapped alignments ?) 
 
+Usando novamente o samtools view, dessa vez com a opção -f para buscar pelas flags bitwise do arquivo BAM ordenado e indexado. O argumento 4 indica as reads marcadas como não alinhadas (unmapped).
+
+Dessa forma, 2663 alinhamentos não puderam ser mapeados.
 
 5 - Realize o alinhamento das sequências FASTQ contra o genoma de referência hg19 aqui disponibilizado, e realize a chamada de variantes utilizando a região alvo BRCA.list (interesse apenas na região dos genes BRCA1 e BRCA2).  Realize a anotação de dados funcionais usando o SNPEFF.
  Com este arquivo em mãos , responda as seguintes perguntas ?
 
 5.1- Quantas variantes existem com impacto funcional (Annotation_Impact) do tipo HIGH, MODERATE, LOW ? Existe alguma variante em HIGH ? Qual é cromossomo, posição e a alteração ?
+
+Realizei a chamada de variantes com o programa Freebayes como sugerido, usando as configurações padrão.
+
+Em seguida, utilizei o snpEff para realizar as anotações restringindo para as regiões solicitadas.
+
+Com o arquivo VCF anotado (output/variants_annotated.vcf), utilizei o bcftools query para extrair as anotações inseridas, e salvei o resultado no arquivo output/genotypes.txt.
+
+Observei que foram detectadas 84 variantes, sendo 61 no cromossomo 13 e 23 no cromossomo 17. Uma única variante do cromossomo 17 possuiu 5 anotações de impacto alto (HIGH).
+Duas variantes localizadas no cromossomo 13 possuíram anotação como impacto moderado (MODERATE) (uma anotação cada) e oito, também localizadas no cromossomo 13, possuíram anotação LOW (também uma anotação para cada).
+As 73 variantes restantes foram anotadas como MODIFIER.
+
+Uma única variante com anotação HIGH foi detectada. Ela é uma deleção localizada no cromossomo 17, posição 41222948. Como mencionado acima, essa deleção recebeu todas as 5 anotações de impacto HIGH.
+
+Por fim, salvei o resumo desses resultados no arquivo output/questao51.txt.

@@ -1,0 +1,14 @@
+variants with HIGH impact
+chr17 41222948 del
+variants with MODERATE impact
+chr13 32906729 snp
+chr13 32929387 snp
+variants with LOW impact
+chr13 32893197 del
+chr13 32900232 snp
+chr13 32900241 snp
+chr13 32911888 snp
+chr13 32912299 snp
+chr13 32913055 snp
+chr13 32915005 snp
+chr13 32929232 snp
